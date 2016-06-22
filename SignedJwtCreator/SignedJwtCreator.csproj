@@ -1,0 +1,37 @@
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <AssemblyName>SignedJwtCreator</AssemblyName>
+        <OutputPath>bin\</OutputPath>
+        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+        <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21}</ProjectTypeGuids>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="System" />
+      <Reference Include="System.Web" />
+      <Reference Include="System.Configuration" />
+      <Reference Include="System.DirectoryServices.AccountManagement" />
+      <Reference Include="System.IdentityModel" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="..\packages\System.IdentityModel.Tokens.Jwt.4.0.2.206221351\lib\net45\System.IdentityModel.Tokens.Jwt.dll">
+        <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.2.206221351\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+      </Reference>
+      <Reference Include="..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll">
+        <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <Target Name="Build">
+        <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+        <Csc TargetType="library" References="@(Reference)" Sources="@(Compile)" OutputAssembly="$(OutputPath)$(AssemblyName).dll" />
+        <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutputPath)" />
+    </Target>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
